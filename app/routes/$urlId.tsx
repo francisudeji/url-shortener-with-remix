@@ -1,6 +1,6 @@
 import { json, redirect, useLoaderData } from "remix";
 import type { LoaderFunction } from "remix";
-import { db, getUrlId } from "~/helpers";
+import { db } from "~/helpers";
 
 export const loader: LoaderFunction = async ({params}) => {
   const {urlId} = params

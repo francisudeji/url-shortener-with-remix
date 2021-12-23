@@ -16,8 +16,6 @@ export const action: ActionFunction = async ({request}) => {
   const formData = await request.formData();
   const url = formData.get('url')
 
-  console.log(url)
-
   if (typeof url !== 'string') {
     return json({ url, message: 'Invalid request, try again!' }, { status: 400 })
   }
@@ -65,7 +63,6 @@ export default function Index() {
   const [copied, setCopied] = React.useState(false)
   const data = useActionData()
   const transition = useTransition()
-  console.log(data?.url)
 
   async function copyToClipboard() {
     const text = data?.url || ""
