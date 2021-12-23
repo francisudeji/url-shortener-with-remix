@@ -20,8 +20,9 @@ export default function App() {
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
+        <script src="https://cdn.tailwindcss.com"></script>
       </head>
-      <body>
+      <body className="bg-gray-100">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
