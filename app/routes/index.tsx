@@ -40,7 +40,7 @@ export const action: ActionFunction = async ({ request }) => {
   const modifiedUrl = url.includes("http", 0) ? url : `https://${url}`;
 
   const shortenedUrl = await db.url.findUnique({
-    where: { original_url: modifiedUrl },
+    where: { original_url: modifiedUrl.toLowerCase() },
   });
 
   if (shortenedUrl) {

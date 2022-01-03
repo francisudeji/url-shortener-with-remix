@@ -1,2 +1,2 @@
-export {db} from './db.server'
-export {getUrlId} from './id'
+export { db } from "./db";
+export { getUrlId } from "./id";

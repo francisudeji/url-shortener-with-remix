@@ -14,9 +14,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   const url = await db.url.findUnique({ where: { url_id: urlId } });
 
-  if (!url) {
-    return json(urlId, { status: 404 });
-  }
+  if (!url) return json(urlId, { status: 404 });
 
   return redirect(url.original_url);
 };
