@@ -1,14 +1,7 @@
-import * as React from "react";
+import { useState } from "react";
 import { Form, json, useActionData, useTransition } from "remix";
-import type { ActionFunction, MetaFunction } from "remix";
+import type { ActionFunction } from "remix";
 import { db, getUrlId } from "~/helpers";
-
-export const meta: MetaFunction = () => {
-  return {
-    title: "URL Shortener",
-    description: "Shorten and share links",
-  };
-};
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
@@ -83,7 +76,7 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Index() {
-  const [copied, setCopied] = React.useState(false);
+  const [copied, setCopied] = useState(false);
   const data = useActionData();
   const transition = useTransition();
 
@@ -95,7 +88,7 @@ export default function Index() {
         setCopied(true);
         setTimeout(() => setCopied(false), 1500);
       })
-      .catch();
+      .catch((err) => console.error(err));
   }
 
   return (
@@ -107,6 +100,7 @@ export default function Index() {
             type="text"
             name="url"
             autoComplete="off"
+            autoCapitalize="off"
             placeholder="https://examplewebsite.domain"
             defaultValue={data?.url}
             aria-invalid={Boolean(data?.url) || undefined}
