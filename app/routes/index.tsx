@@ -3,6 +3,13 @@ import { Form, json, useActionData, useTransition } from "remix";
 import type { ActionFunction } from "remix";
 import { db, getUrlId } from "~/helpers";
 
+interface ActionData {
+  url: string;
+  original_url?: string;
+  error: boolean;
+  message: string;
+}
+
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const url = formData.get("url");
@@ -68,16 +75,14 @@ export const action: ActionFunction = async ({ request }) => {
       { status: 201 }
     );
   } catch (err: unknown) {
-    return json(
-      { url, error: true, message: "Something went wrong" },
-      { status: 400 }
-    );
+    const message = err instanceof Error ? err.message : "Something went wrong";
+    return json({ url, error: true, message }, { status: 400 });
   }
 };
 
 export default function Index() {
   const [copied, setCopied] = useState(false);
-  const data = useActionData();
+  const data = useActionData<ActionData>();
   const transition = useTransition();
 
   async function copyToClipboard() {
@@ -108,7 +113,7 @@ export default function Index() {
             className="px-2 w-full rounded-md h-12 border border-grey-50 focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500  active:outline-none active:ring active:ring-1 active:ring-blue-500"
           />
           <button
-            className="h-12 px-4 text-white uppercase text-sm tracking-wide bg-blue-500 flex-shrink-0 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 focus:ring-offset-2 active:outline-none active:ring active:ring-1 active:ring-blue-500 active:ring-offset-2"
+            className="h-12 px-4 text-white uppercase text-sm trackisng-wide bg-blue-500 flex-shrink-0 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-1 focus:ring-blue-500 focus:ring-offset-2 active:outline-none active:ring active:ring-1 active:ring-blue-500 active:ring-offset-2"
             type="submit"
           >
             {transition.state === "submitting" ? "Please wait..." : "Shorten"}
